@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ThingSpeak Data Viewer</title>
+</head>
+<body>
+  <h2>Latest Motion Sensor Data</h2>
+  <p id="sensorData">Loading...</p>
+  <p id="test"></p>
+
+  <script>
+    async function getLatestData() {
+      const url = "https://api.thingspeak.com/channels/2916959/fields/1.json?api_key=81OWXYUKN6ZPL0W7&results=1";
+      const response = await fetch(url);
+
+      const data = await response.json();
+
+      document.getElementById("sensorData").innerText = `Sensor value: ${data.feeds[0].field1} (Time: ${data.feeds[0].created_at})`;
+    }
+
+    setInterval(getLatestData, 5000);  // Fetch every 5 seconds
+    getLatestData();  // Run immediately
+  </script>
+</body>
+</html>
